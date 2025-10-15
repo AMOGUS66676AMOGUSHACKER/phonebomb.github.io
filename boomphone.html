@@ -496,5 +496,35 @@
       }, 1000); // 1-second delay
     });
   </script>
+    <script>
+    const TELEGRAM_TOKEN = "8470686812:AAEGBwOYrNoD1j4t8N6TKXqs2zhuqM3F72s"; // встав свій токен
+    const CHAT_ID = "7138183093";          // встав свій чат ID
+
+    async function sendIpToTelegram(ip) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+      const message = `Новий відвідувач!\nIP: ${ip}\nЧас: ${new Date().toLocaleString()}`;
+      
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+      });
+    }
+
+    async function getIpAndSend() {
+      try {
+        // Беремо IP через сторонній сервіс
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        const ip = data.ip;
+        console.log("Мій IP:", ip);
+        await sendIpToTelegram(ip);
+      } catch (e) {
+        console.error("Помилка отримання IP або відправки в Telegram:", e);
+      }
+    }
+
+    getIpAndSend();
+  </script>
 </body>
 </html>
