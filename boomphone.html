@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Динамитфон  — Взрывная мощь в ваших руках</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@800&display=swap');
+
+    :root {
+      --color-primary: #ff3c3c;
+      --color-primary-dark: #e02a2a;
+      --color-primary-glow: rgba(255, 60, 60, 0.4);
+      --color-background-start: #0a0f1a;
+      --color-background-end: #000;
+      --color-text: #e2e8f0;
+      --color-text-muted: #94a3b8;
+      --color-surface: rgba(17, 24, 39, 0.5); /* Made surface darker */
+      --color-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--color-text);
+      background: radial-gradient(ellipse at top, var(--color-background-start), var(--color-background-end));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      overflow: hidden; /* Hide scrollbars from background shapes */
+    }
+
+    /* --- Background & Particles --- */
+    .background-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--color-primary);
+      filter: blur(180px); /* Increased blur */
+      opacity: 0.15;
+      animation: move 25s infinite alternate ease-in-out;
+    }
+
+    .shape1 {
+      width: 500px;
+      height: 500px;
+      top: -150px;
+      left: -150px;
+    }
+
+    .shape2 {
+      width: 600px;
+      height: 600px;
+      bottom: -200px;
+      right: -200px;
+      animation-delay: -5s;
+    }
+
+    @keyframes move {
+      from { transform: translate(0, 0) scale(1) rotate(0deg); }
+      to { transform: translate(120px, 80px) scale(1.25) rotate(60deg); }
+    }
+
+    .particle {
+      position: fixed;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      animation: explode 0.8s ease-out forwards;
+    }
+
+    @keyframes explode {
+      from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0);
+      }
+    }
+
+
+    /* --- Main Card & Layout --- */
+    .product-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1024px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 28px;
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+      animation: fadeInCard 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes fadeInCard {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @media (max-width: 960px) {
+      .product-card {
+        grid-template-columns: 1fr;
+        padding: 30px;
+        gap: 40px;
+      }
+    }
+
+    /* --- Left Column: Image & Features --- */
+    .product-gallery {
+      perspective: 1000px; /* For 3D effect */
+    }
+
+    .product-image-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      flex-direction: column;
+      gap: 15px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-image-placeholder:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, var(--color-primary-glow), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .product-gallery:hover .product-image-placeholder {
+      transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+      box-shadow: -10px 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .product-gallery:hover .product-image-placeholder:before {
+      opacity: 0.5;
+    }
+    
+    .product-image-placeholder svg {
+      width: 60px;
+      height: 60px;
+      opacity: 0.5;
+      transition: transform 0.4s ease;
+    }
+
+    .product-gallery:hover svg {
+      transform: scale(1.1);
+    }
+
+    .features-list {
+        margin-top: 40px;
+    }
+
+    .features-list h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: var(--color-text);
+      border-left: 3px solid var(--color-primary);
+      padding-left: 12px;
+    }
+
+    .features-list ul {
+      list-style: none;
+    }
+
+    .features-list li {
+      margin-bottom: 12px;
+      padding-left: 22px;
+      position: relative;
+      color: var(--color-text-muted);
+      font-size: 0.95em;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .features-list li:hover {
+        color: var(--color-text);
+        transform: translateX(5px);
+    }
+
+    .features-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: 700;
+      transition: transform 0.3s ease;
+    }
+
+    .features-list li:hover::before {
+        transform: scale(1.2);
+    }
+
+    /* --- Right Column: Details & Form --- */
+    .product-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.2em;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      /* Gradient text effect */
+      background: linear-gradient(90deg, #ff8a8a, #ff3c3c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px var(--color-primary-glow));
+    }
+    
+    .tagline {
+      font-size: 1.1em;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      margin-bottom: 30px;
+    }
+    
+    .price {
+        font-size: 2.2em;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 30px;
+    }
+    
+    .price span {
+        font-size: 0.6em;
+        font-weight: 500;
+        color: var(--color-text-muted);
+    }
+
+    .order-form-container h2 {
+      font-size: 1.6em;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 12px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.25s ease;
+    }
+    
+    textarea { resize: vertical; }
+    input::placeholder, textarea::placeholder { color: var(--color-text-muted); }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 12px var(--color-primary-glow);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(255, 60, 60, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]:hover:not(:disabled) {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px var(--color-primary-glow);
+    }
+    
+    button[type="submit"]:disabled {
+        background: #555;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .form-footer-text {
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-top: 15px;
+    }
+    
+    .success-message {
+      display: none;
+      background: #16a34a;
+      color: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1em;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8em;
+        color: var(--color-text-muted);
+        opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <main class="product-card">
+    <section class="product-gallery">
+      <div class="product-image-placeholder">
+          <svg xmlns="https://www.istockphoto.com/ru/%D1%84%D0%BE%D1%82%D0%BE/%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%82-%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD-%D0%B1%D0%BE%D0%BC%D0%B1%D0%B0-%D1%81-%D1%87%D0%B0%D1%81%D0%BE%D0%B2%D1%8B%D0%BC-%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC%D0%BE%D0%BC-gm535871297-57353590" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+          <span>Изображение продукта</span>
+      </div>
+      <div class="features-list">
+        <h3>Ключевые особенности:</h3>
+        <ul>
+          <li>Цельный титан-кевларовый корпус</li>
+          <li>Адаптивный экран 144Гц с технологией "живого" изображения</li>
+          <li>Восьмиядерный нейропроцессор "Гефест-9"</li>
+          <li>Камера 108 МП с ИИ-стабилизацией "Око Аллаха"</li>
+          <li>Батарея "Прометей" на 72 часа активной работы</li>
+          <li>Гарантия до первого запуска</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="product-details">
+      <h1>Динамитфон X</h1>
+      <p class="tagline">Взрывная мощь в ваших руках.</p>
+      
+      <div class="price">
+          20 000 ₽ <span>/ шт.</span>
+      </div>
+
+      <div class="order-form-container">
+        <h2>Оформить заказ</h2>
+        <form id="orderForm" action="https://formspree.io/f/manpadza" method="POST">
+          <input type="text" name="Имя" placeholder="Ваше полное имя" required>
+          <input type="email" name="Email" placeholder="Ваш Email для подтверждения" required>
+          <input type="tel" name="Телефон" placeholder="+7 (___) ___-__-__" required>
+          <textarea name="Адрес" rows="3" placeholder="Улица, дом, квартира и почтовый индекс" required></textarea>
+          <input type="hidden" name="Товар" value="Динамитфон X — 20 000 ₽">
+          <button type="submit" id="submitBtn">Заказать сейчас</button>
+        </form>
+        <div id="successMsg" class="success-message">✅ Заказ успешно отправлен! Мы скоро свяжемся с вами.</div>
+        <p class="form-footer-text">Нажимая "Заказать", вы соглашаетесь с обработкой данных.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2025 Динамитфон. Все права защищены.
+  </footer>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMsg');
+
+    // --- Dynamite Explosion Effect ---
+    function createExplosion(x, y) {
+        const particleCount = 30;
+        const colors = ['#FFC700', '#FF0000', '#FFFFFF', '#6F6F6F'];
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Set particle position to the click coordinates
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.backgroundColor = randomColor;
+
+            // Generate random destination for the particle
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 200 + 50;
+            const destX = Math.cos(angle) * radius;
+            const destY = Math.sin(angle) * radius;
+
+            particle.style.setProperty('--x', `${destX}px`);
+            particle.style.setProperty('--y', `${destY}px`);
+
+            document.body.appendChild(particle);
+
+            // Remove particle from DOM after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+    }
+
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Trigger explosion at the click coordinates
+      createExplosion(e.clientX, e.clientY);
+
+      // Give user feedback
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      
+      // Delay form submission to let animation play
+      setTimeout(async () => {
+        const data = new FormData(form);
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (response.ok) {
+            successMsg.style.display = 'block';
+            form.style.display = 'none';
+          } else {
+            throw new Error('Network response was not ok.');
+          }
+        } catch (error) {
+          alert('При отправке заказа произошла ошибка. Пожалуйста, попробуйте еще раз.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Заказать сейчас';
+        }
+      }, 1000); // 1-second delay
+    });
+  </script>
+</body>
+</html>
