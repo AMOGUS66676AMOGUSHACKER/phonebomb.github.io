@@ -367,6 +367,48 @@
         color: var(--color-text-muted);
         opacity: 0.5;
     }
+    /* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+    overflow-y: auto;
+  }
+
+  .product-card {
+    padding: 20px;
+    gap: 25px;
+    border-radius: 20px;
+  }
+
+  h1 {
+    font-size: 2em;
+    text-align: center;
+  }
+
+  .tagline, .price {
+    text-align: center;
+  }
+
+  .features-list h3 {
+    font-size: 1em;
+  }
+
+  .features-list li {
+    font-size: 0.9em;
+  }
+
+  input, textarea, button {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .footer {
+    position: static;
+    text-align: center;
+    margin-top: 25px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -461,10 +503,10 @@
         }
     }
 
+form.addEventListener('submit', (e) => {
+  submitBtn.textContent = 'Отправка...';
+});
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
       // Trigger explosion at the click coordinates
       createExplosion(e.clientX, e.clientY);
 
@@ -528,5 +570,6 @@
   </script>
 </body>
 </html>
+
 
 
